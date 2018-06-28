@@ -1,5 +1,6 @@
 package com.app.pack;
 
+import com.app.pack.constants.TerminalCalculatorConstants;
 import com.app.pack.exception.TerminalCalculatorException;
 import com.app.pack.processor.TerminalCalculatorProcessor;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Created by jayakrishnansomasekharannair on 6/27/18.
  */
-public class TestTerminalCalculatorProcessor {
+public class TestTerminalCalculatorProcessor implements TerminalCalculatorConstants {
 
     private static TerminalCalculatorProcessor terminalCalculatorProcessor = null;
 
@@ -33,7 +34,7 @@ public class TestTerminalCalculatorProcessor {
         final String inputExpression = null;
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "Found empty input - ExceptionCategory : TerminalCalculatorInvalidArgumentException");
+                EMPTY_INPUT_FOUND_MESSAGE+EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
 
     }
 
@@ -43,7 +44,7 @@ public class TestTerminalCalculatorProcessor {
         final String inputExpression = "";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "Found empty input - ExceptionCategory : TerminalCalculatorInvalidArgumentException");
+                EMPTY_INPUT_FOUND_MESSAGE+EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
 
     }
 
@@ -53,7 +54,8 @@ public class TestTerminalCalculatorProcessor {
         final String inputExpression = "add(1, 2";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "parenthesis count does not match - ExceptionCategory : TerminalCalculatorExpressionFormatException");
+                PARENTHESIS_COUNT_DOES_NOT_MATCH_MESSAGE+EXCEPTION_CATEGORY_MESSAGE+
+                        "TerminalCalculatorExpressionFormatException");
 
     }
 
@@ -64,7 +66,8 @@ public class TestTerminalCalculatorProcessor {
         final String inputExpression = "add(1,2)";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "delimiters pattern is not as expected - ExceptionCategory : TerminalCalculatorExpressionFormatException");
+                DELIMITER_PATTERN_IS_NOT_AS_EXPECTED_MESSAGE+EXCEPTION_CATEGORY_MESSAGE+
+                        "TerminalCalculatorExpressionFormatException");
 
     }
 
@@ -74,7 +77,7 @@ public class TestTerminalCalculatorProcessor {
         final String inputExpression = "adds(1, 2)";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "Operation not permitted : adds - ExceptionCategory : TerminalCalculatorOperationException");
+                OPERATION_NOT_PERMITTED_MESSAGE+"adds"+EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorOperationException");
 
     }
 
@@ -160,8 +163,8 @@ public class TestTerminalCalculatorProcessor {
         final String inputExpression = "mult("+Integer.MAX_VALUE+", 2)";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "result exceeded maximum threshold, " + Integer.MAX_VALUE +
-                        " - ExceptionCategory : TerminalCalculatorResultThresholdException");
+                RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE + Integer.MAX_VALUE +
+                        EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorResultThresholdException");
 
     }
 
@@ -172,8 +175,8 @@ public class TestTerminalCalculatorProcessor {
         final String inputExpression = "mult("+Integer.MIN_VALUE+", 2)";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "result lesser than minimum threshold, " + Integer.MIN_VALUE +
-                        " - ExceptionCategory : TerminalCalculatorResultThresholdException");
+                RESULT_LESSER_THAN_MINIMUM_THRESHOLD_MESSAGE + Integer.MIN_VALUE +
+                        EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorResultThresholdException");
 
     }
 
@@ -184,8 +187,8 @@ public class TestTerminalCalculatorProcessor {
         final String inputExpression = "div(1, 0)";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "result exceeded maximum threshold, " + Integer.MAX_VALUE +
-                        " - ExceptionCategory : TerminalCalculatorInvalidArgumentException");
+                DIVISION_BY_ZERO_ENCOUNTERED_MESSAGE + Integer.MAX_VALUE +
+                        EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
 
     }
 }

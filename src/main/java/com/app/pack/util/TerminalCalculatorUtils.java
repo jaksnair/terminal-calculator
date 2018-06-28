@@ -29,17 +29,17 @@ public class TerminalCalculatorUtils implements TerminalCalculatorConstants {
 
         LOGGER.info("handleException in action");
 
-        StringBuilder errorMessage = new StringBuilder("Exception Occured : ");
+        StringBuilder errorMessage = new StringBuilder(EXCEPTION_OCCURRED_MESSAGE);
 
         errorMessage.append(exception.getMessage());
         if(exception instanceof TerminalCalculatorInvalidArgumentException) {
-            errorMessage.append(" - ExceptionCategory : TerminalCalculatorInvalidArgumentException");
+            errorMessage.append(EXCEPTION_CATEGORY_MESSAGE).append("TerminalCalculatorInvalidArgumentException");
         } else if (exception instanceof TerminalCalculatorResultThresholdException) {
-            errorMessage.append(" - ExceptionCategory : TerminalCalculatorResultThresholdException");
+            errorMessage.append(EXCEPTION_CATEGORY_MESSAGE).append("TerminalCalculatorResultThresholdException");
         } else if (exception instanceof TerminalCalculatorOperationException) {
-            errorMessage.append(" - ExceptionCategory : TerminalCalculatorOperationException");
+            errorMessage.append(EXCEPTION_CATEGORY_MESSAGE).append("TerminalCalculatorOperationException");
         } else if (exception instanceof TerminalCalculatorExpressionFormatException) {
-            errorMessage.append(" - ExceptionCategory : TerminalCalculatorExpressionFormatException");
+            errorMessage.append(EXCEPTION_CATEGORY_MESSAGE).append("TerminalCalculatorExpressionFormatException");
         } else {
             errorMessage.append(exception.getMessage());
         }

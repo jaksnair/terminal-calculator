@@ -1,5 +1,6 @@
 package com.app.pack;
 
+import com.app.pack.constants.TerminalCalculatorConstants;
 import com.app.pack.exception.TerminalCalculatorException;
 import com.app.pack.exception.TerminalCalculatorExpressionFormatErrorCode;
 import com.app.pack.exception.TerminalCalculatorInvalidArgumentException;
@@ -10,6 +11,7 @@ import com.app.pack.util.TerminalCalculatorUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Created by jayakrishnansomasekharannair on 6/27/18.
  */
 
-public class TestTerminalCalculatorUtils {
+public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants {
 
     @Test
     public void testCheckNullOrEmptyTrue() {
@@ -49,35 +51,41 @@ public class TestTerminalCalculatorUtils {
     public void testHandleExceptionTerminalCalculatorInvalidArgumentException() {
 
         Executable closureContainingCodeToTest = ()-> TerminalCalculatorUtils.handleException(
-                new TerminalCalculatorInvalidArgumentException("Found empty input"));
+                new TerminalCalculatorInvalidArgumentException(EMPTY_INPUT_FOUND_MESSAGE));
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "Found empty input - ExceptionCategory : TerminalCalculatorInvalidArgumentException");
+                EXCEPTION_OCCURRED_MESSAGE+EMPTY_INPUT_FOUND_MESSAGE+EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
     }
 
     @Test
     public void testHandleExceptionTerminalCalculatorResultThresholdException() {
 
         Executable closureContainingCodeToTest = ()-> TerminalCalculatorUtils.handleException(
-                new TerminalCalculatorResultThresholdException(" result exceeded max threshold, "+Integer.MAX_VALUE));
+                new TerminalCalculatorResultThresholdException(RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE+Integer.MAX_VALUE));
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                " result exceeded max threshold, "+Integer.MAX_VALUE+" - ExceptionCategory : TerminalCalculatorResultThresholdException");
+                EXCEPTION_OCCURRED_MESSAGE + RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE + Integer.MAX_VALUE+
+                        EXCEPTION_CATEGORY_MESSAGE + "TerminalCalculatorResultThresholdException");
+
     }
+
     @Test
     public void testHandleExceptionTerminalCalculatorInvalidOperationException() {
 
         Executable closureContainingCodeToTest = ()-> TerminalCalculatorUtils.handleException(
-                new TerminalCalculatorOperationException("Operation not permitted : adds"));
+                new TerminalCalculatorOperationException(OPERATION_NOT_PERMITTED_MESSAGE+"adds"));
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "Operation not permitted : adds - ExceptionCategory : TerminalCalculatorOperationException");
+                EXCEPTION_OCCURRED_MESSAGE+OPERATION_NOT_PERMITTED_MESSAGE+"adds"+
+                        EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorOperationException");
     }
+    
     @Test
     public void testHandleExceptionTerminalCalculatorUnbalancedExpressionException() {
 
         Executable closureContainingCodeToTest = ()-> TerminalCalculatorUtils.handleException(
-                new TerminalCalculatorExpressionFormatException("parenthesis count does not match",
+                new TerminalCalculatorExpressionFormatException(PARENTHESIS_COUNT_DOES_NOT_MATCH_MESSAGE,
                         TerminalCalculatorExpressionFormatErrorCode.UNBALANCED_PARENTHESIS));
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "parenthesis count does not match - ExceptionCategory : TerminalCalculatorExpressionFormatException");
+                EXCEPTION_OCCURRED_MESSAGE+PARENTHESIS_COUNT_DOES_NOT_MATCH_MESSAGE+
+                        EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorExpressionFormatException");
     }
 
     @Test
@@ -86,8 +94,8 @@ public class TestTerminalCalculatorUtils {
         Executable closureContainingCodeToTest = ()-> TerminalCalculatorUtils.handleException(
                 new NullPointerException("null"));
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                "Division by Zero Encountered, check the arguments in Division Expression - " +
-                        "ExceptionCategory : TerminalCalculatorExpressionFormatException");
+                EXCEPTION_OCCURRED_MESSAGE+"Division by Zero Encountered, check the arguments in Division Expression" +
+                        EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorExpressionFormatException");
     }
 
 }
