@@ -58,7 +58,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         } catch (TerminalCalculatorInvalidArgumentException | TerminalCalculatorExpressionFormatException
                 |TerminalCalculatorOperationException | TerminalCalculatorResultThresholdException exception) {
 
-            LOGGER.error("Exception occured " + exception.getMessage());
+            LOGGER.error("Exception occurred " + exception.getMessage());
             TerminalCalculatorUtils.handleException(exception);
         }
 
@@ -79,7 +79,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
         if(TerminalCalculatorUtils.checkNullOrEmpty(inputExpression)){
             LOGGER.fatal("Expression is either empty or null ");
-            throw new TerminalCalculatorInvalidArgumentException("Found empty input");
+            throw new TerminalCalculatorInvalidArgumentException(EMPTY_INPUT_FOUND_MESSAGE);
         }
 
         checkIfExpressionHasBalancedParenthesisAndIsWellFormed(inputExpression);
@@ -107,7 +107,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
         if(!validOperation(operation)){
             LOGGER.warn("Operation requested will not be performed.");
-            throw new TerminalCalculatorOperationException("Operation not permitted : " + operation);
+            throw new TerminalCalculatorOperationException(OPERATION_NOT_PERMITTED_MESSAGE + operation);
         }
         int offset = operation.length()+1;
 
@@ -185,7 +185,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
             if (index < expression.length()-1 && expression.charAt(index) == TERMINAL_CALCULATOR_DELIMITER_COMMA){
                 if(expression.charAt(index+1) != TERMINAL_CALCULATOR_DELIMITER_SPACE) {
                     LOGGER.warn("Delimiters in expression are not well formed ");
-                    throw new TerminalCalculatorExpressionFormatException("delimiters pattern is not as expected",
+                    throw new TerminalCalculatorExpressionFormatException(DELIMITER_PATTERN_IS_NOT_AS_EXPECTED_MESSAGE,
                             TerminalCalculatorExpressionFormatErrorCode.MALFORMED_DELIMITERS);
                 }
             }
@@ -195,7 +195,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
         if(parenthesisCount!=0){
             LOGGER.warn("Parenthesis in expression are not balanced ");
-            throw new TerminalCalculatorExpressionFormatException("parenthesis count does not match",
+            throw new TerminalCalculatorExpressionFormatException(PARENTHESIS_COUNT_DOES_NOT_MATCH_MESSAGE,
                     TerminalCalculatorExpressionFormatErrorCode.UNBALANCED_PARENTHESIS);
         }
 
@@ -281,8 +281,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
                 break;
             case TERMINAL_CALCULATOR_DIV_OPERATION :
                 if(Long.parseLong(rightOperand.trim())==0){
-                    throw new TerminalCalculatorInvalidArgumentException(
-                            "Division by Zero Encountered, check the arguments in Division Expression");
+                    throw new TerminalCalculatorInvalidArgumentException(DIVISION_BY_ZERO_ENCOUNTERED_MESSAGE);
                 }
                 result = Long.parseLong(leftOperand.trim())/Long.parseLong(rightOperand.trim());
                 break;
@@ -300,10 +299,10 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
     private void validateExpressionResult (final long result) throws TerminalCalculatorResultThresholdException{
         if(result > Integer.MAX_VALUE) {
-            throw new TerminalCalculatorResultThresholdException(" result exceeded maximum threshold, "
+            throw new TerminalCalculatorResultThresholdException(RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE
                     + Integer.MAX_VALUE);
         } else if (result < Integer.MIN_VALUE) {
-            throw new TerminalCalculatorResultThresholdException(" result lesser than minimum threshold, "
+            throw new TerminalCalculatorResultThresholdException(RESULT_LESSER_THAN_MINIMUM_THRESHOLD_MESSAGE
                     + Integer.MIN_VALUE);
         }
     }
