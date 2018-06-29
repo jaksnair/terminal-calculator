@@ -36,8 +36,13 @@
     - Numbers : integers between Integer.MIN_VALUE and Integer.MAX_VALUE.
     - Variables: strings of characters, where each character is one of a-z, A-Z.
     - Arithmetic functions: add, sub, mult, div, each taking two arbitrary expressions as arguments. 
+        - add - eg: add(1, 2)
+        - sub - eg: sub(1, 2)
+        - mult - eg: mult(1,2)
+        - div - eg: div(2,1)
     - A “let” operator for assigning values to variables:
       	let(<variable name>, <value expression>, <expression where variable is used>)
+      	    - eg: let(a, 5, add(a, a))
 4. Logging verbosity control :
     - levels of verbosity: INFO, ERROR, DEBUG, FATAL, WARN, TRACE, ALL
 5. CI setup available.
