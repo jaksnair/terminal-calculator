@@ -20,26 +20,41 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Created by jayakrishnansomasekharannair on 6/27/18.
  */
 
+/**
+ * Test class to unit test all methods of TerminalCalculatorUtils.
+ */
 public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants {
 
+    /**
+     * CASE : To test checkNullOrEmpty behaves correct in true case
+     */
     @Test
     public void testCheckNullOrEmptyTrue() {
         String input = null;
         assertTrue(TerminalCalculatorUtils.checkNullOrEmpty(input));
     }
 
+    /**
+     * CASE : To test checkNullOrEmpty behaves correct in false case
+     */
     @Test
     public void testCheckNullOrEmptyFalse() {
         String input = "notNull";
         assertFalse(TerminalCalculatorUtils.checkNullOrEmpty(input));
     }
 
+    /**
+     * CASE : To test isANumber behaves correct in true case
+     */
     @Test
     public void testIsANumberTrue() {
         String input = "123";
         assertTrue(TerminalCalculatorUtils.isANumber(input));
     }
 
+    /**
+     * CASE : To test isANumber behaves correct in false case
+     */
     @Test
     public void testIsANumberFalse() {
         String input = "let(a, 5, add(a, 5))";
@@ -47,6 +62,9 @@ public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants 
     }
 
 
+    /**
+     * CASE : handleException test when casts TerminalCalculatorInvalidArgumentException
+     */
     @Test
     public void testHandleExceptionTerminalCalculatorInvalidArgumentException() {
 
@@ -56,6 +74,9 @@ public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants 
                 EXCEPTION_OCCURRED_MESSAGE+EMPTY_INPUT_FOUND_MESSAGE+EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
     }
 
+    /**
+     * CASE : handleException test when casts  TerminalCalculatorResultThresholdException
+     */
     @Test
     public void testHandleExceptionTerminalCalculatorResultThresholdException() {
 
@@ -67,6 +88,9 @@ public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants 
 
     }
 
+    /**
+     * CASE : handleException test when casts  TerminalCalculatorOperationException
+     */
     @Test
     public void testHandleExceptionTerminalCalculatorInvalidOperationException() {
 
@@ -76,7 +100,11 @@ public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants 
                 EXCEPTION_OCCURRED_MESSAGE+OPERATION_NOT_PERMITTED_MESSAGE+"adds"+
                         EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorOperationException");
     }
-    
+
+
+    /**
+     * CASE : handleException test when casts  TerminalCalculatorExpressionFormatException
+     */
     @Test
     public void testHandleExceptionTerminalCalculatorUnbalancedExpressionException() {
 
@@ -88,6 +116,9 @@ public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants 
                         EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorExpressionFormatException");
     }
 
+    /**
+     * CASE : handleException test when casts NullPointerException
+     */
     @Test
     public void testHandleExceptionNullPointerExpressionException() {
 

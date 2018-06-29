@@ -14,17 +14,35 @@ import org.apache.logging.log4j.Logger;
  */
 public class TerminalCalculatorUtils implements TerminalCalculatorConstants {
 
+    /**
+     * LOGGER instance
+     */
     private static Logger LOGGER = LogManager.getLogger(TerminalCalculatorUtils.class.getName());
 
+    /**
+     * Method checks if the given string is null or empty
+     * @param string
+     * @return
+     */
     public static boolean checkNullOrEmpty(String string) {
         return (string == null || string.trim().equals(""));
     }
 
+    /**
+     * Checks if the given string holds only numeric digits.
+     * @param string
+     * @return
+     */
     public static boolean isANumber(String string){
         return string.matches("\\d+");
     }
 
 
+    /**
+     * Exception handling : customized exceptions are casted to TerminalCalculatorException
+     * @param exception
+     * @throws TerminalCalculatorException
+     */
     public static void handleException(Exception exception) throws TerminalCalculatorException {
 
         LOGGER.info("handleException in action");

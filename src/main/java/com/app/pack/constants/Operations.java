@@ -3,6 +3,10 @@ package com.app.pack.constants;
 /**
  * Created by jayakrishnansomasekharannair on 6/27/18.
  */
+
+/**
+ * Allowed operations.
+ */
 public enum Operations {
 
     ADD("add"),
