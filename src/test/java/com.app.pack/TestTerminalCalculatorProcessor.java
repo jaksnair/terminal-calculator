@@ -170,7 +170,7 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
         final String inputExpression = "let(a1, 5, add(a, a))";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE +
+                UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE + "a1" +
                         EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
 
     }
@@ -181,7 +181,7 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
         final String inputExpression = "let(a, 5, add(b, b))";
         Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
         assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
-                UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE + Integer.MAX_VALUE +
+                UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE + "b" +
                         EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
 
     }

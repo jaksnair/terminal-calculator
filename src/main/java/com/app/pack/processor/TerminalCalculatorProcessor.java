@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by jayakrishnansomasekharannair on 6/26/18.
@@ -56,7 +57,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         } catch (TerminalCalculatorInvalidArgumentException | TerminalCalculatorExpressionFormatException
                 |TerminalCalculatorOperationException | TerminalCalculatorResultThresholdException exception) {
 
-            LOGGER.error("Exception occurred " + exception.getMessage());
+            LOGGER.error(EXCEPTION_OCCURRED_MESSAGE + exception.getMessage());
             TerminalCalculatorUtils.handleException(exception);
         }
 
@@ -297,18 +298,14 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         LOGGER.traceEntry(this.getClass().getName()+" : substituteIfItsAVariableFromLetExpression");
 
         Set<String> variablesAvailable  = VARIABLE_VALUE_MAP.keySet();
-        if(variablesAvailable.contains(variable)){
+        if(variablesAvailable.contains(variable)) {
             variable = VARIABLE_VALUE_MAP.get(variable);
-        } else {
-
-            try{
-                checkIfExpressionHasBalancedParenthesisAndIsWellFormed(variable);
-            } catch (TerminalCalculatorExpressionFormatException e) {
-                LOGGER.error(UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE+ variable);
+        } else if (validateVariable(variable)) {
+                LOGGER.error(UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE + variable + " . Available variables are  : "
+                        + variablesAvailable.stream().collect(Collectors.joining(TERMINAL_CALCULATOR_DELIMITER_COMMA+"")));
                 throw new TerminalCalculatorInvalidArgumentException(UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE);
-            }
-
         }
+
 
         LOGGER.traceExit(this.getClass().getName()+" : substituteIfItsAVariableFromLetExpression");
 
@@ -319,12 +316,16 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
     private void validateVariableAndLoadVariableValueMap(final String variable, final String value)
             throws TerminalCalculatorInvalidArgumentException {
 
-        if(variable.matches("[a-zA-Z]+")) {
+        if(validateVariable(variable)) {
             VARIABLE_VALUE_MAP.put(variable, value);
         } else {
-            throw new TerminalCalculatorInvalidArgumentException(UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE);
+            throw new TerminalCalculatorInvalidArgumentException(UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE + variable);
         }
 
+    }
+    
+    private boolean validateVariable(final String variable) {
+        return variable.matches("[a-zA-Z]+");
     }
 }
 
