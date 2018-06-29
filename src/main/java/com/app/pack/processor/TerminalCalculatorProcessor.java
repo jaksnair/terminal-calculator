@@ -23,23 +23,66 @@ import java.util.stream.Collectors;
  * Created by jayakrishnansomasekharannair on 6/26/18.
  */
 
+
+/**
+ *
+ * Class deals with the terminal-calulator processing of the input expression.
+ * 1. It evaluates expressions in a very simple integer expression language.
+ * 2. Takes an input on the command line, computes the result, and prints it to the console. 
+ * 3. Expression details :
+ *      - Numbers : integers between Integer.MIN_VALUE and Integer.MAX_VALUE.
+ *      - Variables: strings of characters, where each character is one of a-z, A-Z.
+ *      - Arithmetic functions: add, sub, mult, div, each taking two arbitrary expressions as arguments. 
+ *      - A “let” operator for assigning values to variables:
+ *                  let(<variable name>, <value expression>, <expression where variable is used>)
+ *
+ */
 public class TerminalCalculatorProcessor implements TerminalCalculatorConstants {
 
+    /**
+     * LOGGER instance
+     */
     private static Logger LOGGER = LogManager.getLogger(TerminalCalculatorProcessor.class.getName());
 
+    /**
+     * Storage to hold the variable and its value used in let expressions.
+     */
     private static Map<String,String> VARIABLE_VALUE_MAP = new HashMap<String,String>();
 
+    /**
+     * INSTANCE of TerminalCalculatorProcessor
+     */
     private static TerminalCalculatorProcessor INSTANCE = new TerminalCalculatorProcessor();
 
+    /**
+     * private default constructor
+     */
     private TerminalCalculatorProcessor(){
 
     }
 
+    /**
+     * Method will provide instance of TerminalCalculatorProcessor.
+     * It sets the desired log level supplied as command line argument.
+     *
+     * @return INSTANCE
+     */
     public static TerminalCalculatorProcessor getInstance() {
         TerminalCalculatorLogManager.setLogLevel();
         return INSTANCE;
     }
 
+    /**
+     *
+     *  Method evaluates expression
+     *  - validates input expression
+     *  - evaluates expression and stores it to result
+     *  - validates expression result for threshold violation.
+     *
+     * @param inputExpression
+     * @return result
+     * @throws TerminalCalculatorException
+     */
     public int evaluate(final String inputExpression) throws TerminalCalculatorException{
 
         LOGGER.traceEntry(this.getClass().getName()+" : evaluate");
@@ -68,6 +111,17 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         return (int)result;
     }
 
+
+    /**
+     *
+     * inputExpression is validated whether.
+     * - it is not null or empty,
+     * - it has balanced parenthesis and the delimiters are well formed
+     *
+     * @param inputExpression
+     * @throws TerminalCalculatorInvalidArgumentException
+     * @throws TerminalCalculatorExpressionFormatException
+     */
     private void validateExpression(final String inputExpression) throws TerminalCalculatorInvalidArgumentException,
             TerminalCalculatorExpressionFormatException {
 
@@ -84,6 +138,16 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
     }
 
+    /**
+     * Method evaluates expression recursively.
+     * - It treats Let expression different from expression with other operations.
+     * - If it is Let expression, method resolves the variables and then does the operation involved.
+     *
+     * @param inputExpression
+     * @return
+     * @throws TerminalCalculatorOperationException
+     * @throws TerminalCalculatorInvalidArgumentException
+     */
     private long evaluateExpression(final String inputExpression) throws TerminalCalculatorOperationException,
             TerminalCalculatorInvalidArgumentException {
 
@@ -156,7 +220,12 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         return result;
     }
 
-    
+
+    /**
+     * Method ensures if the expression has balanced parenthesis & the delimiters are well formed (space follows comma).
+     * @param expression
+     * @throws TerminalCalculatorExpressionFormatException
+     */
     private void checkIfExpressionHasBalancedParenthesisAndIsWellFormed(final String expression)
             throws TerminalCalculatorExpressionFormatException {
 
@@ -190,6 +259,11 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
     }
 
+    /**
+     * Method identifies the operation involved.
+     * @param expression
+     * @return
+     */
     private String identifyOperation(final String expression) {
 
         LOGGER.traceEntry(this.getClass().getName()+" : identifyOperation");
@@ -208,6 +282,11 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         return operation.toString();
     }
 
+    /**
+     * Method finds the index of delimiter in the expression.
+     * @param expression
+     * @return
+     */
     private int findIndexOfDelimiter(final String expression) {
 
         if(LOGGER.isTraceEnabled()){
@@ -233,17 +312,40 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         return delimiterIndex;
     }
 
+    /**
+     * It ensures whether the input is a number or not.
+     *
+     * @param operandNotSureIfExpression
+     * @return
+     */
     private boolean checkIfOperandIsANumber (final String operandNotSureIfExpression) {
 
         return TerminalCalculatorUtils.isANumber(operandNotSureIfExpression);
 
     }
 
+    /**
+     *
+     * Compares the given operation against the available inputs.
+     *
+     * @param operation
+     * @return
+     */
     private boolean validOperation (final String operation) {
         return Arrays.stream(Operations.values())
                 .filter(op -> op.getName().equals(operation)).findFirst().isPresent();
     }
 
+    /**
+     * Method performs the given operation with the operands and returns the result.
+     *
+     * @param leftOperand
+     * @param rightOperand
+     * @param operation
+     * @return
+     * @throws TerminalCalculatorOperationException
+     * @throws TerminalCalculatorInvalidArgumentException
+     */
     private long performOperation( final String leftOperand, final  String rightOperand, final String operation)
             throws TerminalCalculatorOperationException, TerminalCalculatorInvalidArgumentException {
 
@@ -278,6 +380,15 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
     }
 
+
+    /**
+     * Compares result against the threshold value
+     *
+     * Integer.MIN_VALUE < result < Integer.MAX_VALUE
+     *
+     * @param result
+     * @throws TerminalCalculatorResultThresholdException
+     */
     private void validateExpressionResult (final long result) throws TerminalCalculatorResultThresholdException {
 
         if(result > Integer.MAX_VALUE) {
@@ -291,6 +402,15 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         }
     }
 
+    /**
+     *
+     * Variable of a Let expression is substituted with the value stored.
+     * It also ensures to throw expression if the variable is not a valid one.
+     *
+     * @param variable
+     * @return
+     * @throws TerminalCalculatorInvalidArgumentException
+     */
     private String substituteIfItsAVariableFromLetExpression( String variable)
             throws TerminalCalculatorInvalidArgumentException {
 
@@ -313,6 +433,14 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
     }
 
+    /**
+     *
+     * It validates the variable and loads variable and value to the storage.
+     *
+     * @param variable
+     * @param value
+     * @throws TerminalCalculatorInvalidArgumentException
+     */
     private void validateVariableAndLoadVariableValueMap(final String variable, final String value)
             throws TerminalCalculatorInvalidArgumentException {
 
@@ -323,7 +451,13 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         }
 
     }
-    
+
+    /**
+     * Validate the given variable
+     * - strings of characters, where each character is one of a-z, A-Z
+     * @param variable
+     * @return
+     */
     private boolean validateVariable(final String variable) {
         return variable.matches("[a-zA-Z]+");
     }

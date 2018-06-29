@@ -14,20 +14,34 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Created by jayakrishnansomasekharannair on 6/27/18.
  */
+
+/**
+ * Test class to unit test all methods of TerminalCalculatorProcessor.
+ */
+
 public class TestTerminalCalculatorProcessor implements TerminalCalculatorConstants {
 
     private static TerminalCalculatorProcessor terminalCalculatorProcessor = null;
 
+    /**
+     * Before executing all test cases, create the TerminalCalculatorProcessor instance.
+     */
     @BeforeAll
     public static void setup() {
         terminalCalculatorProcessor = TerminalCalculatorProcessor.getInstance();
     }
 
+    /**
+     * Before Each test cases, nothing specific to be executed.
+     */
     @BeforeEach
     public void setupBeforeEach() {
 
     }
 
+    /**
+     * CASE : To evaluate a null expression
+     */
     @Test
     public void testEvaluateWhenInputExpressionIsNull() {
 
@@ -38,6 +52,9 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a empty expression
+     */
     @Test
     public void testEvaluateWhenInputExpressionIsEmpty() {
 
@@ -48,6 +65,9 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a an expression with unbalanced parenthesis
+     */
     @Test
     public void testEvaluateWhenInputExpressionIsNotHavingBalancedParenthesis() {
 
@@ -59,7 +79,9 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
-
+    /**
+     * CASE : To evaluate a an expression with unexpected delimiter format
+     */
     @Test
     public void testEvaluateWhenInputExpressionIsNotHavingExpectedDelimiterFormat() {
 
@@ -71,6 +93,9 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a an expression with an invalid operation
+     */
     @Test
     public void testEvaluateWhenInputExpressionHavingInvalidOperation() {
 
@@ -81,7 +106,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
-
+    /**
+     * CASE : To evaluate a valid add expression
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidAddExpression() throws TerminalCalculatorException {
 
@@ -90,6 +119,9 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a valid sub expression
+     */
     @Test
     public void testEvaluateValidSubExpression() throws TerminalCalculatorException {
 
@@ -98,6 +130,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a valid multiplication expression
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidMultiplicationExpression() throws TerminalCalculatorException {
 
@@ -106,6 +143,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a valid division expression
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidDivisionExpression() throws TerminalCalculatorException {
 
@@ -115,6 +157,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
     }
 
 
+    /**
+     * CASE : To evaluate a valid add and mult expression
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidAddAndMultExpression() throws TerminalCalculatorException {
 
@@ -123,6 +170,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a valid add+mult+div expression
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidAddMultDivExpression() throws TerminalCalculatorException {
 
@@ -131,6 +183,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a valid let expression
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidLetExpression() throws TerminalCalculatorException {
 
@@ -139,7 +196,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
-
+    /**
+     * CASE : To evaluate a valid let+mult+add expression
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidLetMultAndAddExpression() throws TerminalCalculatorException {
 
@@ -148,6 +209,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a complex let expression
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidComplexLetExpression() throws TerminalCalculatorException {
 
@@ -156,6 +222,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a complex let expression with variables as "aA"(2 chars)
+     *
+     *  @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateValidComplexLetVariableFormatExpression() throws TerminalCalculatorException {
 
@@ -164,6 +235,12 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     *
+     * CASE : To evaluate a let expression with unexpected variable "a1"(alphabet and a numeric)
+     *
+     * @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateUnexpectedLetVariableFormatExpression() throws TerminalCalculatorException {
 
@@ -175,6 +252,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a let expression with a different variable in use in the expression.
+     *
+     * @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateUnexpectedLetVariableFoundInExpression() throws TerminalCalculatorException {
 
@@ -186,6 +268,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    /**
+     * CASE : To evaluate a let expression whose result exceeds maximum threshold value.
+     *
+     * @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateExpressionResultExceedsMaximumThreshold() throws TerminalCalculatorException {
 
@@ -197,7 +284,12 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
-
+    /**
+     *
+     * CASE : To evaluate a let expression whose result is less than minimum threshold value.
+     *
+     * @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateExpressionResultExceedsMinimumThreshold() throws TerminalCalculatorException {
 
@@ -209,7 +301,11 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
-
+    /**
+     * CASE : To evaluate a let expression in which division by zero is encountered.
+     *
+     * @throws TerminalCalculatorException
+     */
     @Test
     public void testEvaluateExpressionDivisionByZeroCase() throws TerminalCalculatorException {
 

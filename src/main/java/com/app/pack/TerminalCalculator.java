@@ -10,7 +10,15 @@ import org.apache.logging.log4j.Logger;
  */
 public class TerminalCalculator {
 
+    /**
+     * LOGGER instance
+     */
     private static Logger LOGGER = LogManager.getLogger(TerminalCalculator.class.getName());
+
+    /**
+     * Main method of the terminal calculator application.
+     * @param args
+     */
 
     public static void main(String[] args) {
 

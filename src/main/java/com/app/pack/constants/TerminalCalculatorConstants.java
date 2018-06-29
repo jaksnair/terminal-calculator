@@ -3,6 +3,11 @@ package com.app.pack.constants;
 /**
  * Created by jayakrishnansomasekharannair on 6/26/18.
  */
+
+/**
+ * Application constants (class helper constants and expression constants) are present in this interface.
+ */
+
 public interface TerminalCalculatorConstants {
 
     String TERMINAL_CALCULATOR_ADD_OPERATION = "add";
