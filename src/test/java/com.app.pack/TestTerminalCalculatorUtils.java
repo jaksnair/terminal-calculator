@@ -76,7 +76,8 @@ public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants 
                 EXCEPTION_OCCURRED_MESSAGE+OPERATION_NOT_PERMITTED_MESSAGE+"adds"+
                         EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorOperationException");
     }
-    
+
+
     @Test
     public void testHandleExceptionTerminalCalculatorUnbalancedExpressionException() {
 

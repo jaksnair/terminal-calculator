@@ -156,6 +156,35 @@ public class TestTerminalCalculatorProcessor implements TerminalCalculatorConsta
 
     }
 
+    @Test
+    public void testEvaluateValidComplexLetVariableFormatExpression() throws TerminalCalculatorException {
+
+        final String inputExpression = "let(aA, 5, add(aA, aA))";
+        assertEquals(10, terminalCalculatorProcessor.evaluate(inputExpression));
+
+    }
+
+    @Test
+    public void testEvaluateUnexpectedLetVariableFormatExpression() throws TerminalCalculatorException {
+
+        final String inputExpression = "let(a1, 5, add(a, a))";
+        Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
+        assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
+                UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE +
+                        EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
+
+    }
+
+    @Test
+    public void testEvaluateUnexpectedLetVariableFoundInExpression() throws TerminalCalculatorException {
+
+        final String inputExpression = "let(a, 5, add(b, b))";
+        Executable closureContainingCodeToTest = ()-> terminalCalculatorProcessor.evaluate(inputExpression);
+        assertThrows(TerminalCalculatorException.class,closureContainingCodeToTest,
+                UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE + Integer.MAX_VALUE +
+                        EXCEPTION_CATEGORY_MESSAGE+"TerminalCalculatorInvalidArgumentException");
+
+    }
 
     @Test
     public void testEvaluateExpressionResultExceedsMaximumThreshold() throws TerminalCalculatorException {

@@ -41,9 +41,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
     public int evaluate(final String inputExpression) throws TerminalCalculatorException{
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceEntry(this.getClass().getName()+" : evaluate");
-        }
+        LOGGER.traceEntry(this.getClass().getName()+" : evaluate");
 
         long result = 0L;
 
@@ -62,10 +60,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
             TerminalCalculatorUtils.handleException(exception);
         }
 
-
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceExit(this.getClass().getName()+" : evaluate");
-        }
+        LOGGER.traceExit(this.getClass().getName()+" : evaluate");
 
         LOGGER.info("Evaluated Result  : "+ result);
 
@@ -93,20 +88,16 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
         long result = 0;
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceEntry(this.getClass().getName()+" : evaluateExpression");
-        }
+        LOGGER.traceEntry(this.getClass().getName()+" : evaluateExpression");
 
         String operation = identifyOperation(inputExpression);
 
-        if(LOGGER.isDebugEnabled()){
-            LOGGER.debug("Evaluating expression : " + inputExpression);
-            LOGGER.debug("Operation requested is : " + operation);
-        }
-
+        LOGGER.debug("Evaluating expression : " + inputExpression);
+        LOGGER.debug("Operation requested is : " + operation);
 
         if(!validOperation(operation)){
-            LOGGER.warn("Operation requested will not be performed.");
+            LOGGER.error("Invalid Operation : " + operation);
+            LOGGER.warn("Suspending Operation.");
             throw new TerminalCalculatorOperationException(OPERATION_NOT_PERMITTED_MESSAGE + operation);
         }
         int offset = operation.length()+1;
@@ -142,15 +133,15 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
             String valueExpression = inputExpression.substring(offset+1, delimiterIndex);
 
             if (checkIfOperandIsANumber(valueExpression)) {
-                if(LOGGER.isTraceEnabled()){
-                    LOGGER.debug("Variable  : " + variable + " Value : " + valueExpression);
-                }
-                loadVariableValueMap(variable,valueExpression);
+
+                LOGGER.debug("Variable  : " + variable + " Value : " + valueExpression);
+
+                validateVariableAndLoadVariableValueMap(variable,valueExpression);
             } else {
-                if(LOGGER.isTraceEnabled()){
-                    LOGGER.debug("Need to resolve value from : " + valueExpression);
-                }
-                loadVariableValueMap(variable,String.valueOf(evaluateExpression(valueExpression)));
+
+                LOGGER.debug("Need to resolve value from : " + valueExpression);
+
+                validateVariableAndLoadVariableValueMap(variable,String.valueOf(evaluateExpression(valueExpression)));
             }
 
             String expressionInWhichVariableIsUsed = inputExpression.substring(delimiterIndex + 2, inputExpression.length() - 1);
@@ -159,10 +150,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
         }
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceExit(this.getClass().getName()+" : evaluateExpression");
-        }
-
+        LOGGER.traceExit(this.getClass().getName()+" : evaluateExpression");
 
         return result;
     }
@@ -184,7 +172,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
             if (index < expression.length()-1 && expression.charAt(index) == TERMINAL_CALCULATOR_DELIMITER_COMMA){
                 if(expression.charAt(index+1) != TERMINAL_CALCULATOR_DELIMITER_SPACE) {
-                    LOGGER.warn("Delimiters in expression are not well formed ");
+                    LOGGER.fatal("Delimiters in expression are not well formed ");
                     throw new TerminalCalculatorExpressionFormatException(DELIMITER_PATTERN_IS_NOT_AS_EXPECTED_MESSAGE,
                             TerminalCalculatorExpressionFormatErrorCode.MALFORMED_DELIMITERS);
                 }
@@ -194,7 +182,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
         }
 
         if(parenthesisCount!=0){
-            LOGGER.warn("Parenthesis in expression are not balanced ");
+            LOGGER.fatal("Parenthesis in expression are not balanced ");
             throw new TerminalCalculatorExpressionFormatException(PARENTHESIS_COUNT_DOES_NOT_MATCH_MESSAGE,
                     TerminalCalculatorExpressionFormatErrorCode.UNBALANCED_PARENTHESIS);
         }
@@ -203,10 +191,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
     private String identifyOperation(final String expression) {
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceEntry(this.getClass().getName()+" : identifyOperation");
-        }
-
+        LOGGER.traceEntry(this.getClass().getName()+" : identifyOperation");
 
         StringBuilder operation = new StringBuilder();
         int index=0;
@@ -242,9 +227,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
             index++;
         }
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceExit(this.getClass().getName()+" : findIndexOfDelimiter");
-        }
+        LOGGER.traceExit(this.getClass().getName()+" : findIndexOfDelimiter");
 
         return delimiterIndex;
     }
@@ -265,9 +248,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
 
         long result = 0L;
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceEntry(this.getClass().getName()+" : checkIfExpressionHasBalancedParenthesisAndIsWellFormed");
-        }
+        LOGGER.traceEntry(this.getClass().getName()+" : checkIfExpressionHasBalancedParenthesisAndIsWellFormed");
 
         switch(operation) {
             case TERMINAL_CALCULATOR_ADD_OPERATION :
@@ -281,6 +262,7 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
                 break;
             case TERMINAL_CALCULATOR_DIV_OPERATION :
                 if(Long.parseLong(rightOperand.trim())==0){
+                    LOGGER.error(" Right operand obtained is zero, cannot continue to divide ");
                     throw new TerminalCalculatorInvalidArgumentException(DIVISION_BY_ZERO_ENCOUNTERED_MESSAGE);
                 }
                 result = Long.parseLong(leftOperand.trim())/Long.parseLong(rightOperand.trim());
@@ -289,45 +271,60 @@ public class TerminalCalculatorProcessor implements TerminalCalculatorConstants 
                 throw new TerminalCalculatorOperationException("Operation not permitted : " + operation);
         }
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceExit(this.getClass().getName()+" : checkIfExpressionHasBalancedParenthesisAndIsWellFormed");
-        }
+        LOGGER.traceExit(this.getClass().getName()+" : checkIfExpressionHasBalancedParenthesisAndIsWellFormed");
 
         return result;
 
     }
 
-    private void validateExpressionResult (final long result) throws TerminalCalculatorResultThresholdException{
+    private void validateExpressionResult (final long result) throws TerminalCalculatorResultThresholdException {
+
         if(result > Integer.MAX_VALUE) {
+            LOGGER.warn(RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE+ "Result obtained : " + result);
             throw new TerminalCalculatorResultThresholdException(RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE
                     + Integer.MAX_VALUE);
         } else if (result < Integer.MIN_VALUE) {
+            LOGGER.warn(RESULT_LESSER_THAN_MINIMUM_THRESHOLD_MESSAGE+ "Result obtained : " + result);
             throw new TerminalCalculatorResultThresholdException(RESULT_LESSER_THAN_MINIMUM_THRESHOLD_MESSAGE
                     + Integer.MIN_VALUE);
         }
     }
 
-    private String substituteIfItsAVariableFromLetExpression( String variable){
+    private String substituteIfItsAVariableFromLetExpression( String variable)
+            throws TerminalCalculatorInvalidArgumentException {
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceEntry(this.getClass().getName()+" : substituteIfItsAVariableFromLetExpression");
-        }
+
+        LOGGER.traceEntry(this.getClass().getName()+" : substituteIfItsAVariableFromLetExpression");
 
         Set<String> variablesAvailable  = VARIABLE_VALUE_MAP.keySet();
         if(variablesAvailable.contains(variable)){
             variable = VARIABLE_VALUE_MAP.get(variable);
+        } else {
+
+            try{
+                checkIfExpressionHasBalancedParenthesisAndIsWellFormed(variable);
+            } catch (TerminalCalculatorExpressionFormatException e) {
+                LOGGER.error(UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE+ variable);
+                throw new TerminalCalculatorInvalidArgumentException(UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE);
+            }
+
         }
 
-        if(LOGGER.isTraceEnabled()){
-            LOGGER.traceExit(this.getClass().getName()+" : substituteIfItsAVariableFromLetExpression");
-        }
+        LOGGER.traceExit(this.getClass().getName()+" : substituteIfItsAVariableFromLetExpression");
 
         return variable;
 
     }
 
-    private void loadVariableValueMap(final String variable, final String value) {
-        VARIABLE_VALUE_MAP.put(variable,value);
+    private void validateVariableAndLoadVariableValueMap(final String variable, final String value)
+            throws TerminalCalculatorInvalidArgumentException {
+
+        if(variable.matches("[a-zA-Z]+")) {
+            VARIABLE_VALUE_MAP.put(variable, value);
+        } else {
+            throw new TerminalCalculatorInvalidArgumentException(UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE);
+        }
+
     }
 }
 

@@ -39,5 +39,7 @@ public interface TerminalCalculatorConstants {
 
     String DIVISION_BY_ZERO_ENCOUNTERED_MESSAGE = "Division by Zero Encountered, check the arguments in Division Expression";
 
+    String UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE = "Unexpected variable format in LET expression";
 
+    String UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE = "Unexpected variable found in LET expression";
 }
