@@ -8,43 +8,43 @@ package com.app.pack.constants;
  * Application constants (class helper constants and expression constants) are present in this interface.
  */
 
-public interface TerminalCalculatorConstants {
+public abstract class TerminalCalculatorConstants {
 
-    String TERMINAL_CALCULATOR_ADD_OPERATION = "add";
+    public static final String TERMINAL_CALCULATOR_ADD_OPERATION = "add";
 
-    String TERMINAL_CALCULATOR_SUB_OPERATION = "sub";
+    public static final String TERMINAL_CALCULATOR_SUB_OPERATION = "sub";
 
-    String TERMINAL_CALCULATOR_MULT_OPERATION = "mult";
+    public static final String TERMINAL_CALCULATOR_MULT_OPERATION = "mult";
 
-    String TERMINAL_CALCULATOR_DIV_OPERATION = "div";
+    public static final String TERMINAL_CALCULATOR_DIV_OPERATION = "div";
 
-    char TERMINAL_CALCULATOR_LEFT_PARENTHESIS = '(';
+    public static final char TERMINAL_CALCULATOR_LEFT_PARENTHESIS = '(';
 
-    char TERMINAL_CALCULATOR_RIGHT_PARENTHESIS = ')';
+    public static final char TERMINAL_CALCULATOR_RIGHT_PARENTHESIS = ')';
 
-    char TERMINAL_CALCULATOR_DELIMITER_COMMA = ',';
+    public static final char TERMINAL_CALCULATOR_DELIMITER_COMMA = ',';
 
-    char TERMINAL_CALCULATOR_DELIMITER_SPACE = ' ';
+    public static final char TERMINAL_CALCULATOR_DELIMITER_SPACE = ' ';
 
-    String EXCEPTION_OCCURRED_MESSAGE = "Exception Occurred : ";
+    public static final String EXCEPTION_OCCURRED_MESSAGE = "Exception Occurred : ";
 
-    String EXCEPTION_CATEGORY_MESSAGE = " - ExceptionCategory : ";
+    public static final String EXCEPTION_CATEGORY_MESSAGE = " - ExceptionCategory : ";
 
-    String EMPTY_INPUT_FOUND_MESSAGE = "Found empty input. ";
+    public static final String EMPTY_INPUT_FOUND_MESSAGE = "Found empty input. ";
 
-    String OPERATION_NOT_PERMITTED_MESSAGE = "Operation not permitted :";
+    public static final String OPERATION_NOT_PERMITTED_MESSAGE = "Operation not permitted :";
 
-    String RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE = "Result exceeded maximum threshold. ";
+    public static final String RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE = "Result exceeded maximum threshold. ";
 
-    String RESULT_LESSER_THAN_MINIMUM_THRESHOLD_MESSAGE = "Result lesser than minimum threshold. ";
+    public static final String RESULT_LESSER_THAN_MINIMUM_THRESHOLD_MESSAGE = "Result lesser than minimum threshold. ";
 
-    String PARENTHESIS_COUNT_DOES_NOT_MATCH_MESSAGE = "Parenthesis count does not match. ";
+    public static final String PARENTHESIS_COUNT_DOES_NOT_MATCH_MESSAGE = "Parenthesis count does not match. ";
 
-    String DELIMITER_PATTERN_IS_NOT_AS_EXPECTED_MESSAGE = "Delimiter pattern is not as expected. ";
+    public static final String DELIMITER_PATTERN_IS_NOT_AS_EXPECTED_MESSAGE = "Delimiter pattern is not as expected. ";
 
-    String DIVISION_BY_ZERO_ENCOUNTERED_MESSAGE = "Division by Zero Encountered, check the arguments in Division Expression. ";
+    public static final String DIVISION_BY_ZERO_ENCOUNTERED_MESSAGE = "Division by Zero Encountered, check the arguments in Division Expression. ";
 
-    String UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE = "Unexpected variable format in LET expression : ";
+    public static final String UNEXPECTED_LET_VARIABLE_FORMAT_MESSAGE = "Unexpected variable format in LET expression : ";
 
-    String UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE = "Unexpected variable found in LET expression : ";
+    public static final String UNEXPECTED_LET_VARIABLE_FOUND_MESSAGE = "Unexpected variable found in LET expression : ";
 }
