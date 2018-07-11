@@ -1,6 +1,5 @@
 package com.app.pack;
 
-import com.app.pack.constants.TerminalCalculatorConstants;
 import com.app.pack.exception.TerminalCalculatorException;
 import com.app.pack.exception.TerminalCalculatorExpressionFormatErrorCode;
 import com.app.pack.exception.TerminalCalculatorInvalidArgumentException;
@@ -11,6 +10,12 @@ import com.app.pack.util.TerminalCalculatorUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import static com.app.pack.constants.TerminalCalculatorConstants.EMPTY_INPUT_FOUND_MESSAGE;
+import static com.app.pack.constants.TerminalCalculatorConstants.EXCEPTION_CATEGORY_MESSAGE;
+import static com.app.pack.constants.TerminalCalculatorConstants.EXCEPTION_OCCURRED_MESSAGE;
+import static com.app.pack.constants.TerminalCalculatorConstants.OPERATION_NOT_PERMITTED_MESSAGE;
+import static com.app.pack.constants.TerminalCalculatorConstants.PARENTHESIS_COUNT_DOES_NOT_MATCH_MESSAGE;
+import static com.app.pack.constants.TerminalCalculatorConstants.RESULT_EXCEEDED_MAXIMUM_THRESHOLD_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Test class to unit test all methods of TerminalCalculatorUtils.
  */
-public class TestTerminalCalculatorUtils implements TerminalCalculatorConstants {
+public class TestTerminalCalculatorUtils  {
 
     /**
      * CASE : To test checkNullOrEmpty behaves correct in true case

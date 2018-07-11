@@ -1,6 +1,5 @@
 package com.app.pack.log;
 
-import com.app.pack.processor.TerminalCalculatorProcessor;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,8 +28,6 @@ public class TerminalCalculatorLogManager {
      */
     public static void setLogLevel() {
 
-        LOGGER.info("TerminalCalculatorLogManager : setLogLevel");
-
         String logLevel = LogLevel.WARN.name();
         if (Boolean.getBoolean("log4j.debug")) {
             logLevel = LogLevel.DEBUG.name();
@@ -49,8 +46,9 @@ public class TerminalCalculatorLogManager {
         }
         Level level = Level.getLevel(logLevel);
 
+        Configurator.setRootLevel(level);
+
         LOGGER.warn("LogLevel set is : "+ logLevel);
 
-        Configurator.setRootLevel(level);
     }
 }

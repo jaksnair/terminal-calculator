@@ -13,7 +13,7 @@
                      immediateFlush="true" bufferedIO="true" createOnDemand="true"
                      filePattern="${terminal-calculator-applicationLogFile}-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
-                <pattern>%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C (%F:%L) - %m%n</pattern>
+                <pattern>%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C (%F:%L) (%M) - %m%n</pattern>
             </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB" />
