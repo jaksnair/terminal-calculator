@@ -1,7 +1,7 @@
 package com.app.pack;
 
-import com.app.pack.processor.TerminalCalculatorProcessor;
 import com.app.pack.exception.TerminalCalculatorException;
+import com.app.pack.processor.TerminalCalculatorProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +29,7 @@ public class TerminalCalculator {
         try {
             System.out.println(terminalCalculator.evaluate(inputExpression));
         } catch (TerminalCalculatorException e) {
-            System.out.println("Exception");
+            System.out.println(e.getMessage()+"\r check log file for more details");
             LOGGER.error("Exception from  TerminalCalculatorProcessor : " + e.getMessage());
         }
 

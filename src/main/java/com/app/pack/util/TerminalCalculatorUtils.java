@@ -1,5 +1,6 @@
 package com.app.pack.util;
 
+
 import com.app.pack.constants.TerminalCalculatorConstants;
 import com.app.pack.exception.TerminalCalculatorException;
 import com.app.pack.exception.TerminalCalculatorExpressionFormatException;
@@ -12,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * Created by jayakrishnansomasekharannair on 6/26/18.
  */
-public class TerminalCalculatorUtils implements TerminalCalculatorConstants {
+public class TerminalCalculatorUtils {
 
     /**
      * LOGGER instance
@@ -47,22 +48,24 @@ public class TerminalCalculatorUtils implements TerminalCalculatorConstants {
 
         LOGGER.info("handleException in action");
 
-        StringBuilder errorMessage = new StringBuilder(EXCEPTION_OCCURRED_MESSAGE);
+        StringBuilder errorMessage = new StringBuilder(TerminalCalculatorConstants.EXCEPTION_OCCURRED_MESSAGE);
 
         errorMessage.append(exception.getMessage());
         if(exception instanceof TerminalCalculatorInvalidArgumentException) {
-            errorMessage.append(EXCEPTION_CATEGORY_MESSAGE).append("TerminalCalculatorInvalidArgumentException");
+            errorMessage.append(TerminalCalculatorConstants.EXCEPTION_CATEGORY_MESSAGE)
+                    .append("TerminalCalculatorInvalidArgumentException");
         } else if (exception instanceof TerminalCalculatorResultThresholdException) {
-            errorMessage.append(EXCEPTION_CATEGORY_MESSAGE).append("TerminalCalculatorResultThresholdException");
+            errorMessage.append(TerminalCalculatorConstants.EXCEPTION_CATEGORY_MESSAGE)
+                    .append("TerminalCalculatorResultThresholdException");
         } else if (exception instanceof TerminalCalculatorOperationException) {
-            errorMessage.append(EXCEPTION_CATEGORY_MESSAGE).append("TerminalCalculatorOperationException");
+            errorMessage.append(TerminalCalculatorConstants.EXCEPTION_CATEGORY_MESSAGE)
+                    .append("TerminalCalculatorOperationException");
         } else if (exception instanceof TerminalCalculatorExpressionFormatException) {
-            errorMessage.append(EXCEPTION_CATEGORY_MESSAGE).append("TerminalCalculatorExpressionFormatException");
+            errorMessage.append(TerminalCalculatorConstants.EXCEPTION_CATEGORY_MESSAGE)
+                    .append("TerminalCalculatorExpressionFormatException");
         } else {
             errorMessage.append(exception.getMessage());
         }
-
-        LOGGER.warn("Throwing TerminalCalculatorException");
 
         throw new TerminalCalculatorException(errorMessage.toString());
 
